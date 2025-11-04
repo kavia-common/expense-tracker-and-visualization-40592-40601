@@ -16,22 +16,22 @@ In the project directory, you can run:
 ### Local development
 - `npm start` — runs the app in development mode (dev server).  
   Open http://localhost:3000 to view it in your browser.
+  - The script is CI-aware; if `CI=true` it exits immediately with code 0 to avoid a long-lived process in CI.
+  - You can set REACT_APP_PORT to change the port (defaults to 3000).
 
 Environment suggestions for local dev:
 - `BROWSER=none` to avoid auto-opening
 - `HOST=0.0.0.0` to bind to all interfaces
-- Port defaults to 3000 (you may set REACT_APP_PORT, but the start script uses a fixed default of 3000 in CI-safe mode)
 
 ### CI/Preview environments
 
-Some CI systems terminate long-running foreground processes (which can appear as exit code 137/kill -9) and mistakenly treat that as a build failure. To avoid this:
-- Prefer `npm run start:ci` or `npm run start:preview` — both are intentional no-ops that immediately exit with code 0. They are safe for CI systems that probe for a “start” script but do not want a long-running process.
-- If you need to validate that the project builds successfully in CI, use `npm run healthcheck` — it performs a production build and exits 0 on success.
-- Do NOT run `npm start` in CI unless your environment expects a long-lived dev server and can keep it running. Otherwise, your CI may send SIGKILL leading to exit code 137.
+Some CI systems terminate long-running foreground processes (seen as exit code 137/kill -9) and mistakenly treat that as a build failure. To avoid this:
+- Prefer `npm run start:ci` or `npm run start:preview` — both are intentional no-ops that immediately exit with code 0. They are safe when a CI checks for a “start” script but does not want a long-running process.
+- To validate that the project builds successfully in CI, use `npm run healthcheck` — it performs a production build and exits 0 on success.
+- Do NOT run `npm start` in CI unless your environment expects and keeps a dev server running.
 
 Notes:
-- `npm start` is CI-aware and will automatically no-op if CI=true is detected, avoiding accidental long-lived dev server launches.
-- You may see warnings like “browserslist data is old” or deprecation messages from webpack-dev-server; these are non-fatal and can be ignored for CI.
+- You may see warnings like “Browserslist data is old” or deprecation messages from webpack-dev-server; these are non-fatal and can be ignored for CI.
 
 ### Recommended CI steps
 
@@ -48,7 +48,7 @@ Notes:
 
 ## Environment Variables
 
-Set via CI/CD or a local `.env`:
+Set via CI/CD or a local `.env` (see `.env.example` for defaults):
 - REACT_APP_API_BASE
 - REACT_APP_BACKEND_URL
 - REACT_APP_FRONTEND_URL
