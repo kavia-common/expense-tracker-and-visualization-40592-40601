@@ -1,18 +1,16 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 /**
  * PUBLIC_INTERFACE
- * Sidebar displays primary navigation for the app.
- * For now, uses anchor links with hashes. Can be wired to react-router later.
+ * Sidebar displays primary navigation for the app using react-router NavLink.
  */
 export default function Sidebar() {
   const nav = [
-    { key: 'dashboard', label: 'Dashboard', href: '#/dashboard', icon: '📊' },
-    { key: 'expenses', label: 'Expenses', href: '#/expenses', icon: '💸' },
-    { key: 'categories', label: 'Categories', href: '#/categories', icon: '🏷️' },
+    { key: 'dashboard', label: 'Dashboard', to: '/dashboard', icon: '📊' },
+    { key: 'expenses', label: 'Expenses', to: '/expenses', icon: '💸' },
+    { key: 'categories', label: 'Categories', to: '/categories', icon: '🏷️' },
   ];
-
-  const activeKey = (typeof window !== 'undefined' && window.location.hash.replace('#/', '')) || 'dashboard';
 
   return (
     <aside className="app-sidebar" role="navigation" aria-label="Primary">
@@ -24,14 +22,14 @@ export default function Sidebar() {
       </div>
       <nav style={{ paddingTop: '8px' }}>
         {nav.map((item) => (
-          <a
+          <NavLink
             key={item.key}
-            href={item.href}
-            className={`nav-item ${activeKey === item.key ? 'active' : ''}`}
+            to={item.to}
+            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
           >
             <span aria-hidden="true" style={{ width: 20, textAlign: 'center' }}>{item.icon}</span>
             <span className="sidebar-label">{item.label}</span>
-          </a>
+          </NavLink>
         ))}
       </nav>
       <div style={{ marginTop: 'auto', padding: '12px', borderTop: '1px dotted var(--color-border)' }}>
