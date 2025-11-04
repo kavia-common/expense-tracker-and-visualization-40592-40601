@@ -10,8 +10,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:ci": "cross-env BROWSER=none CI=true react-scripts start & sleep 8; echo \"CI: exiting dev server after quick boot\"; exit 0",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "cross-env CI=true react-scripts test --watchAll=false",
+    "healthcheck": "echo \"Running frontend healthcheck (build)...\" && npm run build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

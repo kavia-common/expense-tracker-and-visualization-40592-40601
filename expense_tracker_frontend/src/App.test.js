@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders dashboard overview card', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  // Our App renders the Dashboard which shows an "Overview" card title
+  const overview = screen.getByText(/Overview/i);
+  expect(overview).toBeInTheDocument();
 });
