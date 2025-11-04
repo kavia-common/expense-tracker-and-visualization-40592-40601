@@ -18,14 +18,41 @@ In the project directory, you can run:
 Runs the app in development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
+### CI-friendly quick start
+
+Some CI systems terminate long-running foreground processes (which can appear as exit code 137/kill -9). Use:
+
+- `npm run start:ci` to boot the dev server briefly and exit successfully. This avoids the CI killing the process and incorrectly marking the build as failed.
+- Environment variables respected:
+  - REACT_APP_PORT: overrides port (defaults to 3000)
+  - HOST (defaults to 0.0.0.0)
+  - BROWSER=none is set to suppress auto-open
+
 ### `npm test`
 
-Launches the test runner in interactive watch mode.
+Launches the test runner in non-watch CI mode.
 
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
+
+## Environment Variables
+
+The app recognizes these environment variables (configure via your CI/CD or a local `.env`):
+- REACT_APP_API_BASE
+- REACT_APP_BACKEND_URL
+- REACT_APP_FRONTEND_URL
+- REACT_APP_WS_URL
+- REACT_APP_NODE_ENV
+- REACT_APP_NEXT_TELEMETRY_DISABLED
+- REACT_APP_ENABLE_SOURCE_MAPS
+- REACT_APP_PORT
+- REACT_APP_TRUST_PROXY
+- REACT_APP_LOG_LEVEL
+- REACT_APP_HEALTHCHECK_PATH
+- REACT_APP_FEATURE_FLAGS
+- REACT_APP_EXPERIMENTS_ENABLED
 
 ## Customization
 
