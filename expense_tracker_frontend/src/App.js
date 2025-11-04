@@ -1,48 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import './index.css';
+import Layout from './components/common/Layout';
+import Card from './components/common/Card';
 
 // PUBLIC_INTERFACE
 function App() {
-  const [theme, setTheme] = useState('light');
-
-  // Effect to apply theme to document element
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
-
-  // PUBLIC_INTERFACE
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <button 
-          className="theme-toggle" 
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+    <Layout>
+      <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
+        <Card
+          title="Overview"
+          action={<button className="btn btn-secondary">Add Expense</button>}
         >
-          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-        </button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Current theme: <strong>{theme}</strong>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <div className="mono-label">ENV</div>
+          <div className="text-muted" style={{ marginTop: 6, fontSize: 14 }}>
+            API: {process.env.REACT_APP_API_BASE || process.env.REACT_APP_BACKEND_URL || 'not set'}
+          </div>
+        </Card>
+        <Card title="Spending" >
+          <div style={{ height: 120, display: 'grid', placeItems: 'center' }} className="text-muted">
+            Chart placeholder
+          </div>
+        </Card>
+        <Card title="Categories">
+          <ul style={{ margin: 0, paddingLeft: 16 }}>
+            <li className="text-muted">Food</li>
+            <li className="text-muted">Transport</li>
+            <li className="text-muted">Utilities</li>
+          </ul>
+        </Card>
+      </div>
+    </Layout>
   );
 }
 
