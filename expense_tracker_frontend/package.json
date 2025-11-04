@@ -10,7 +10,7 @@
     "react-scripts": "^5.0.1"
   },
   "scripts": {
-    "start": "node -e \"if(process.env.CI==='true'){console.log('[start] CI detected; exiting 0 to avoid running dev server. Use npm run start:ci or start:preview.'); process.exit(0)}\" && cross-env BROWSER=none HOST=0.0.0.0 PORT=${REACT_APP_PORT:-3000} react-scripts start",
+    "start": "node -e \"if(String(process.env.CI).toLowerCase()==='true'){console.log('[start] CI detected; exiting 0 to avoid running dev server. Use npm run start:ci or start:preview.'); process.exit(0)}\" && cross-env BROWSER=none HOST=0.0.0.0 PORT=${REACT_APP_PORT:-3000} react-scripts start",
     "start:ci": "cross-env BROWSER=none HOST=0.0.0.0 CI=true node -e \"console.log('[start:ci] CI-safe noop (OK)');process.exit(0)\"",
     "start:preview": "cross-env BROWSER=none HOST=0.0.0.0 CI=true node -e \"console.log('Preview startup noop (OK)');process.exit(0)\"",
     "build": "cross-env CI=true BROWSER=none react-scripts build",

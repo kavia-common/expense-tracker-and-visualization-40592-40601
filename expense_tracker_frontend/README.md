@@ -28,7 +28,7 @@ Environment suggestions for local dev:
 Some CI systems terminate long-running foreground processes (seen as exit code 137/kill -9) and mistakenly treat that as a build failure. To avoid this:
 - Prefer `npm run start:ci` or `npm run start:preview` — both are intentional no-ops that immediately exit with code 0. They are safe when a CI checks for a “start” script but does not want a long-running process.
 - To validate that the project builds successfully in CI, use `npm run healthcheck` — it performs a production build and exits 0 on success.
-- Do NOT run `npm start` in CI unless your environment expects and keeps a dev server running.
+- Do NOT run `npm start` in CI unless your environment expects and keeps a dev server running. In this repository, when `CI=true`, `npm start` will detect CI and exit 0 immediately to avoid long-lived processes being killed (e.g., exit code 137) and misreported as failures.
 
 Notes:
 - You may see warnings like “Browserslist data is old” or deprecation messages from webpack-dev-server; these are non-fatal and can be ignored for CI.
