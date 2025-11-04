@@ -20,7 +20,7 @@ In the project directory, you can run:
 Environment suggestions for local dev:
 - `BROWSER=none` to avoid auto-opening
 - `HOST=0.0.0.0` to bind to all interfaces
-- `PORT` or `REACT_APP_PORT` to adjust port (defaults to 3000)
+- Port defaults to 3000 (you may set REACT_APP_PORT, but the start script uses a fixed default of 3000 in CI-safe mode)
 
 ### CI/Preview environments
 

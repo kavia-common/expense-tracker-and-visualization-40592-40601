@@ -3,9 +3,13 @@
  * PUBLIC_INTERFACE
  * Healthcheck script for CI/preview environments.
  *
+ * Purpose:
  * - Verifies that a production build completes successfully.
- * - Emits warnings if recommended environment variables are missing, but does not fail the build.
+ * - Emits warnings if recommended environment variables are missing, but does not fail the build due to env absence.
  * - Ensures the process exits with 0 on success so CI does not treat long-lived servers (or kills) as failures.
+ *
+ * Usage:
+ *   npm run healthcheck
  *
  * Environment variables this project recognizes (non-fatal if absent):
  * REACT_APP_API_BASE, REACT_APP_BACKEND_URL, REACT_APP_FRONTEND_URL, REACT_APP_WS_URL,
