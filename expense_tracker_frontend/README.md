@@ -4,39 +4,37 @@ This project provides a minimal React template with a clean, modern UI and minim
 
 ## Features
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+- Lightweight: No heavy UI frameworks - uses only vanilla CSS and React
+- Modern UI: Clean, responsive design with KAVIA brand styling
+- Fast: Minimal dependencies for quick loading times
+- Simple: Easy to understand and modify
 
 ## Getting Started
 
 In the project directory, you can run:
 
-### `npm start`
+### Local development
+- `npm start` — runs the app in development mode (dev server).  
+  Open http://localhost:3000 to view it in your browser.
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Environment suggestions for local dev:
+- `BROWSER=none` to avoid auto-opening
+- `HOST=0.0.0.0` to bind to all interfaces
+- `PORT` or `REACT_APP_PORT` to adjust port (defaults to 3000)
 
 ### CI/Preview environments
 
 Some CI systems terminate long-running foreground processes (which can appear as exit code 137/kill -9) and mistakenly treat that as a build failure. To avoid this:
-- Use `npm run start:ci` to perform a no-op success for previews. It exits with code 0 immediately and is safe for CI systems that just probe scripts.
-- Use `npm run healthcheck` if you need to validate that the project builds successfully in CI (it runs `npm run build`).
+- Use `npm run start:ci` or `npm run start:preview` — both are intentional no-ops that immediately exit with code 0. They are safe for CI systems that probe for a “start” script but do not want a long-running process.
+- Use `npm run healthcheck` if you need to validate that the project builds successfully in CI (it runs `npm run build` and exits).
 
-Environment variables respected by the app at runtime/build:
-- REACT_APP_PORT (defaults to 3000 if used in your hosting)
-- HOST (defaults to 0.0.0.0)
-- BROWSER=none is recommended to suppress auto-open in CI
+Tip: You may see warnings like “browserslist data is old” or deprecation messages from webpack-dev-server; these are non-fatal and do not affect the build.
 
-### `npm test`
+### Tests
+- `npm test` — Launches the test runner in non-watch CI mode.
 
-Launches the test runner in non-watch CI mode.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Production build
+- `npm run build` — Builds the app for production to the `build` folder. It bundles React in production mode and optimizes the build.
 
 ## Environment Variables
 
@@ -73,7 +71,7 @@ The main brand colors are defined as CSS variables in `src/App.css`:
 
 ### Components
 
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
+This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`.
 
 Common components include:
 - Buttons (`.btn`, `.btn-large`)
@@ -85,26 +83,9 @@ Common components include:
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Code Splitting: https://facebook.github.io/create-react-app/docs/code-splitting
+- Analyzing the Bundle Size: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+- Making a Progressive Web App: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+- Advanced Configuration: https://facebook.github.io/create-react-app/docs/advanced-configuration
+- Deployment: https://facebook.github.io/create-react-app/docs/deployment
+- `npm run build` fails to minify: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
