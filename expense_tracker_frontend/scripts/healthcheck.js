@@ -41,7 +41,7 @@ function warnMissingEnv() {
   }
 }
 
-// Run CRA production build and exit 0 if successful
+// Run CRA production build and exit 0 on success
 function runBuild() {
   console.log('[healthcheck] Running CRA production build (non-interactive)...');
   const child = spawn(process.platform === 'win32' ? 'npm.cmd' : 'npm', ['run', 'build'], {
@@ -52,20 +52,34 @@ function runBuild() {
       // Ensure predictable non-interactive build
       BROWSER: 'none',
       // Avoid telemetry or extra noise if present in env list
-      REACT_APP_NEXT_TELEMETRY_DISABLED: process.env.REACT_APP_NEXT_TELEMETRY_DISABLED ?? '1'
+      REACT_APP_NEXT_TELEMETRY_DISABLED:
+        process.env.REACT_APP_NEXT_TELEMETRY_DISABLED ?? '1'
     }
   });
 
   child.on('exit', (code, signal) => {
     if (signal) {
-      console.log(`[healthcheck] Build received signal: ${signal}. This usually indicates an external termination. Marking healthcheck as failed.`);
+      // In some CI environments, processes may be killed due to time/resource limits.
+      // If we received SIGKILL/SIGTERM (commonly logged as 137), we conservatively fail,
+      // but provide guidance so CI logs are clearer.
+      console.log(
+        `[healthcheck] Build received signal: ${signal}. This likely indicates external termination (e.g., CI timeout or memory limit).`
+      );
+      // Exit non-zero to signal CI, but use a generic code 1.
       process.exit(1);
     }
     if (code === 0) {
       console.log('[healthcheck] Build succeeded. Healthcheck OK.');
       process.exit(0);
     }
-    console.error(`[healthcheck] Build failed with code ${code}.`);
+    // Some CI wrappers map resource kills to code 137; surface a helpful hint.
+    if (code === 137) {
+      console.error(
+        '[healthcheck] Build exited with code 137 (SIGKILL). This usually indicates the runner killed the process due to resource limits. Consider increasing memory/time or using start:preview for preview checks.'
+      );
+    } else {
+      console.error(`[healthcheck] Build failed with code ${code}.`);
+    }
     process.exit(code || 1);
   });
 }
