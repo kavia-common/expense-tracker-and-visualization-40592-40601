@@ -36,25 +36,29 @@ function warnMissingEnv() {
   const missing = recommendedEnv.filter((k) => !process.env[k]);
   if (missing.length) {
     console.log('[healthcheck] Warning: missing recommended env vars:', missing.join(', '));
+  } else {
+    console.log('[healthcheck] All recommended env vars are present or optional.');
   }
 }
 
 // Run CRA production build and exit 0 if successful
 function runBuild() {
-  console.log('[healthcheck] Running CRA production build...');
+  console.log('[healthcheck] Running CRA production build (non-interactive)...');
   const child = spawn(process.platform === 'win32' ? 'npm.cmd' : 'npm', ['run', 'build'], {
     stdio: 'inherit',
     env: {
       ...process.env,
       CI: 'true',
       // Ensure predictable non-interactive build
-      BROWSER: 'none'
+      BROWSER: 'none',
+      // Avoid telemetry or extra noise if present in env list
+      REACT_APP_NEXT_TELEMETRY_DISABLED: process.env.REACT_APP_NEXT_TELEMETRY_DISABLED ?? '1'
     }
   });
 
   child.on('exit', (code, signal) => {
     if (signal) {
-      console.log(`[healthcheck] Build received signal: ${signal}. Treating as failure for healthcheck.`);
+      console.log(`[healthcheck] Build received signal: ${signal}. This usually indicates an external termination. Marking healthcheck as failed.`);
       process.exit(1);
     }
     if (code === 0) {
@@ -66,5 +70,6 @@ function runBuild() {
   });
 }
 
+console.log('[healthcheck] CI:', process.env.CI ? 'true' : 'false');
 warnMissingEnv();
 runBuild();

@@ -17,7 +17,8 @@
     "test": "cross-env CI=true react-scripts test --watchAll=false",
     "healthcheck": "node ./scripts/healthcheck.js",
     "postinstall": "node -e \"console.log('postinstall OK')\"",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prestart": "node -e \"if(process.env.CI==='true'){console.log('[prestart] Detected CI environment; use npm run start:ci instead of long-lived dev server.'); process.exit(1)} else {process.exit(0)}\""
   },
   "eslintConfig": {
     "extends": "react-app"

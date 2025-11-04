@@ -29,7 +29,9 @@ Some CI systems terminate long-running foreground processes (which can appear as
 - If you need to validate that the project builds successfully in CI, use `npm run healthcheck` — it performs a production build and exits 0 on success.
 - Do NOT run `npm start` in CI unless your environment expects a long-lived dev server and can keep it running. Otherwise, your CI may send SIGKILL leading to exit code 137.
 
-Tip: You may see warnings like “browserslist data is old” or deprecation messages from webpack-dev-server; these are non-fatal and do not affect the build. They can be ignored safely for CI.
+Note:
+- The `prestart` script intentionally exits with a helpful message when `CI=true` is detected to prevent CI from launching a long-lived dev server by mistake. Use `npm run start:ci` or `npm run start:preview` in CI instead.
+- You may see warnings like “browserslist data is old” or deprecation messages from webpack-dev-server; these are non-fatal and can be ignored for CI.
 
 ### Recommended CI steps
 
