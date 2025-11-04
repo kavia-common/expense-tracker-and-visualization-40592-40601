@@ -36,6 +36,7 @@ Tip: You may see warnings like “browserslist data is old” or deprecation mes
 - Install deps: `npm ci` (or `npm install`)
 - Build once for verification: `npm run healthcheck`
 - For preview checks that require a zero-duration “start”: `npm run start:preview`
+- Optional: update Browserslist DB if needed (non-blocking): `npx update-browserslist-db@latest`
 
 ### Tests
 - `npm test` — Launches the test runner in non-watch CI mode.
