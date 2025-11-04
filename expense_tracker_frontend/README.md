@@ -26,7 +26,7 @@ Environment suggestions for local dev:
 
 Some CI systems terminate long-running foreground processes (which can appear as exit code 137/kill -9) and mistakenly treat that as a build failure. To avoid this:
 - Prefer `npm run start:ci` or `npm run start:preview` — both are intentional no-ops that immediately exit with code 0. They are safe for CI systems that probe for a “start” script but do not want a long-running process.
-- If you need to validate that the project builds successfully in CI, use `npm run healthcheck` (it runs `npm run build` and exits successfully on completion).
+- If you need to validate that the project builds successfully in CI, use `npm run healthcheck` — it performs a production build and exits 0 on success.
 - Do NOT run `npm start` in CI unless your environment expects a long-lived dev server and can keep it running. Otherwise, your CI may send SIGKILL leading to exit code 137.
 
 Tip: You may see warnings like “browserslist data is old” or deprecation messages from webpack-dev-server; these are non-fatal and do not affect the build. They can be ignored safely for CI.
@@ -59,6 +59,8 @@ Set via CI/CD or a local `.env`:
 - REACT_APP_HEALTHCHECK_PATH
 - REACT_APP_FEATURE_FLAGS
 - REACT_APP_EXPERIMENTS_ENABLED
+
+Note: The healthcheck will warn if recommended variables are missing but will not fail CI for absent values.
 
 ## Customization
 
