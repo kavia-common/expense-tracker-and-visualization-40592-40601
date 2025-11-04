@@ -25,10 +25,17 @@ Environment suggestions for local dev:
 ### CI/Preview environments
 
 Some CI systems terminate long-running foreground processes (which can appear as exit code 137/kill -9) and mistakenly treat that as a build failure. To avoid this:
-- Use `npm run start:ci` or `npm run start:preview` — both are intentional no-ops that immediately exit with code 0. They are safe for CI systems that probe for a “start” script but do not want a long-running process.
-- Use `npm run healthcheck` if you need to validate that the project builds successfully in CI (it runs `npm run build` and exits).
+- Prefer `npm run start:ci` or `npm run start:preview` — both are intentional no-ops that immediately exit with code 0. They are safe for CI systems that probe for a “start” script but do not want a long-running process.
+- If you need to validate that the project builds successfully in CI, use `npm run healthcheck` (it runs `npm run build` and exits successfully on completion).
+- Do NOT run `npm start` in CI unless your environment expects a long-lived dev server and can keep it running. Otherwise, your CI may send SIGKILL leading to exit code 137.
 
-Tip: You may see warnings like “browserslist data is old” or deprecation messages from webpack-dev-server; these are non-fatal and do not affect the build.
+Tip: You may see warnings like “browserslist data is old” or deprecation messages from webpack-dev-server; these are non-fatal and do not affect the build. They can be ignored safely for CI.
+
+### Recommended CI steps
+
+- Install deps: `npm ci` (or `npm install`)
+- Build once for verification: `npm run healthcheck`
+- For preview checks that require a zero-duration “start”: `npm run start:preview`
 
 ### Tests
 - `npm test` — Launches the test runner in non-watch CI mode.
@@ -38,7 +45,7 @@ Tip: You may see warnings like “browserslist data is old” or deprecation mes
 
 ## Environment Variables
 
-The app recognizes these environment variables (configure via your CI/CD or a local `.env`):
+Set via CI/CD or a local `.env`:
 - REACT_APP_API_BASE
 - REACT_APP_BACKEND_URL
 - REACT_APP_FRONTEND_URL

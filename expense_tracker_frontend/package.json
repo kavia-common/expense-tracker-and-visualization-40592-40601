@@ -10,7 +10,7 @@
     "react-scripts": "^5.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env BROWSER=none HOST=0.0.0.0 PORT=${REACT_APP_PORT:-3000} react-scripts start",
     "start:ci": "cross-env BROWSER=none HOST=0.0.0.0 CI=true PORT=${REACT_APP_PORT:-3000} node -e \"process.exit(0)\"",
     "start:preview": "cross-env BROWSER=none HOST=0.0.0.0 CI=true PORT=${REACT_APP_PORT:-3000} node -e \"console.log('Preview startup noop (OK)');process.exit(0)\"",
     "build": "react-scripts build",
