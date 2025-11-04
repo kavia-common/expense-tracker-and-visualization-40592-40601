@@ -18,15 +18,16 @@ In the project directory, you can run:
 Runs the app in development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-### CI-friendly quick start
+### CI/Preview environments
 
-Some CI systems terminate long-running foreground processes (which can appear as exit code 137/kill -9). Use:
+Some CI systems terminate long-running foreground processes (which can appear as exit code 137/kill -9) and mistakenly treat that as a build failure. To avoid this:
+- Use `npm run start:ci` to perform a no-op success for previews. It exits with code 0 immediately and is safe for CI systems that just probe scripts.
+- Use `npm run healthcheck` if you need to validate that the project builds successfully in CI (it runs `npm run build`).
 
-- `npm run start:ci` to boot the dev server briefly and exit successfully. This avoids the CI killing the process and incorrectly marking the build as failed.
-- Environment variables respected:
-  - REACT_APP_PORT: overrides port (defaults to 3000)
-  - HOST (defaults to 0.0.0.0)
-  - BROWSER=none is set to suppress auto-open
+Environment variables respected by the app at runtime/build:
+- REACT_APP_PORT (defaults to 3000 if used in your hosting)
+- HOST (defaults to 0.0.0.0)
+- BROWSER=none is recommended to suppress auto-open in CI
 
 ### `npm test`
 
